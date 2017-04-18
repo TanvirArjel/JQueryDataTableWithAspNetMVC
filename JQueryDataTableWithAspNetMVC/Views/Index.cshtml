@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<br />
+
+<style>
+    .dataTables_filter { display: none; }
+    .actions input {
+        visibility: hidden;
+       pointer-events: none; 
+    }
+</style>
+<div>
+    <table id="myTable" class="table table-hover table-striped table-bordered" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Department</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>CreatedOn</th>
+                <th class="actions">Actions</th>
+            </tr>
+            <tr>
+                <th>Employee Name</th>
+                <th>Department</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>CreatedOn</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Employee Name</th>
+            <th>Department</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>CreatedOn</th>
+            <th>Actions</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<style>
+    
+    </style>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "ajax": {
+                    "url": "/Employees/LoadData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "aoColumns": [
+                    {
+                        "data": "EmployeeName",
+                        "autoWidth": true,
+                        "render": function(data, type, row, meta) {
+                            return '<a href="/Employees/Details/' + row.EmployeeId + '">' + data + '</a>';
+                        }
+                    },
+                    { "data": "Department", "autoWidth": true },
+                    { "data": "Age", "autoWidth": true },
+                    { "data": "Gender", "autoWidth": true },
+                    {
+                        "data": "CreatedOn",
+                        "autoWidth": true,
+                        "render":
+                            function(data) {
+                                var dateString = data.substr(6);
+                                var currentTime = new Date(parseInt(dateString));
+                                var month = currentTime.getMonth() + 1;
+                                var day = currentTime.getDate();
+                                var year = currentTime.getFullYear();
+                                var hour = currentTime.getHours();
+                                var minute = currentTime.getMinutes();
+                                var seconds = currentTime.getSeconds();
+
+                                var time = (hour > 12 ? hour-12 :  hour) + ":" + minute + ":"
+                                    + seconds;
+
+                                if (hour > 12 ) {
+                                    time = time + " PM";
+                                } else {
+                                    time = time + " AM";
+                                }
+
+                                
+                                return (day.length > 1 ? day : "0" + day) +
+                                    "/" +
+                                    (month.length > 1 ? month : "0" + month) +
+                                    "/" +
+                                    year + " " + time;
+
+                            }
+
+
+                    },
+                    {
+                        "data": "EmployeeId",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        "render": function(data, type,row, meta) {
+                           
+                            return '<a href="/Employees/Details/' + row.EmployeeId + '">Details</a>' + ' | ' +
+                                '<a href="/Employees/Edit/' + row.EmployeeId + '">Edit</a>'+ ' | ' +
+                                '<a href="/Employees/Delete/' + row.EmployeeId + '">Delete</a>';
+                        }
+                    }
+                ]
+        });
+
+            
+
+
+            // Setup - add a text input to each header cell
+            $('#myTable thead tr:eq(0) th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            });
+
+            var table = $('#myTable').DataTable()
+            {
+                orderCellsTop: true
+            }
+
+            // Apply the search
+            table.columns().every(function (index) {
+                $('#myTable thead tr:eq(0) th:eq(' + index + ') input').on('keyup change', function () {
+                    table.column($(this).parent().index() + ':visible')
+                        .search(this.value)
+                        .draw();
+                });
+            });
+
+        });
+    </script>
+}
+
+@*<td>
+        @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId }) |
+        @Html.ActionLink("Details", "Details", new { id=item.EmployeeId }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeId })
+    </td>*@
