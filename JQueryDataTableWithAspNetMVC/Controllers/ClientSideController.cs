@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JQueryDataTableWithAspNetMVC.Models;
-using DataTables;
 
 namespace JQueryDataTableWithAspNetMVC.Controllers
 {
