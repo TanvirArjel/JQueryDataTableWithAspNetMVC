@@ -184,6 +184,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EmployeeMigrations\201702100456201_InitialCreate.cs" />
+    <Compile Include="Migrations\EmployeeMigrations\201702100456201_InitialCreate.Designer.cs">
+      <DependentUpon>201702100456201_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EmployeeMigrations\201704221036192_InitialCreate1.cs" />
+    <Compile Include="Migrations\EmployeeMigrations\201704221036192_InitialCreate1.Designer.cs">
+      <DependentUpon>201704221036192_InitialCreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EmployeeMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -207,6 +216,7 @@
     <Content Include="Content\buttons.dataTables.min.css" />
     <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\editor.dataTables.min.css" />
+    <Content Include="Content\fixedColumns.bootstrap.min.css" />
     <Content Include="Content\select.dataTables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -230,6 +240,7 @@
     <Content Include="Scripts\DataTables\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\dataTables.buttons.min.js" />
     <Content Include="Scripts\DataTables\dataTables.editor.min.js" />
+    <Content Include="Scripts\DataTables\dataTables.fixedColumns.min.js" />
     <Content Include="Scripts\DataTables\dataTables.select.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -309,6 +320,14 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\EmployeeMigrations\201702100456201_InitialCreate.resx">
+      <DependentUpon>201702100456201_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EmployeeMigrations\201704221036192_InitialCreate1.resx">
+      <DependentUpon>201704221036192_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

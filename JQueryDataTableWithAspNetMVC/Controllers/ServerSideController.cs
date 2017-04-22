@@ -29,15 +29,19 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
             var length = Request.Form.GetValues("length").FirstOrDefault();
-            //Find Order Column
+
+            ////Find the invidual Column Name and Order
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
+
+            //Find the invidual Column Search Value
             var employeeName = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
             var departmentName = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var age = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
-            var gender = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var createdOn = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var designation = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+            var age = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var gender = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+            var createdOn = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
 
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -52,20 +56,21 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
                 x.EmployeeId,
                 x.EmployeeName,
                 x.Department,
+                x.Designation,
                 x.Age,
                 x.Gender,
                 x.CreatedOn
             }).AsQueryable();
 
-            //Searching By Column
-            if (!String.IsNullOrEmpty(employeeName) || !String.IsNullOrEmpty(departmentName) || !String.IsNullOrEmpty(age) || !String.IsNullOrEmpty(gender) || !String.IsNullOrEmpty(createdOn))
+            //Searching By Individual Column
+            if (!String.IsNullOrEmpty(employeeName) || !String.IsNullOrEmpty(departmentName) || !String.IsNullOrEmpty(designation)|| !String.IsNullOrEmpty(age) || !String.IsNullOrEmpty(gender) || !String.IsNullOrEmpty(createdOn))
             {
-                employees = employees.Where(x => x.EmployeeName.Contains(employeeName) && x.Department.DepartmentName.Contains(departmentName) && x.Age.ToString().Contains(age)
+                employees = employees.Where(x => x.EmployeeName.Contains(employeeName) && x.Department.DepartmentName.Contains(departmentName) && x.Designation.Contains(designation) && x.Age.ToString().Contains(age)
                 && x.Gender.Contains(gender) && x.CreatedOn.ToString().Contains(createdOn));
             }
 
 
-            //SORT
+            //Sorting By Individual Column
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
                 if (sortColumnDir == "asc" && sortColumn == "DepartmentName")
@@ -96,7 +101,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = await db.Employees.FindAsync(id);
+            Employee employee = await db.Employees.Include(x => x.Department).FirstOrDefaultAsync(x => x.EmployeeId == id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -116,7 +121,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Age,Gender,CreatedOn")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Designation,Age,Gender,CreatedOn")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -150,7 +155,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Age,Gender,CreatedOn")] Employee employee)
+        public async Task<ActionResult> Edit([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Designation,Age,Gender,CreatedOn")] Employee employee)
         {
             if (ModelState.IsValid)
             {

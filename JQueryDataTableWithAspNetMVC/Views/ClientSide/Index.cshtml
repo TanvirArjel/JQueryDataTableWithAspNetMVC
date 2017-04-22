@@ -1,8 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Client Side Processing";
 }
-
-
 
 <style>
     .dataTables_filter {
@@ -14,18 +12,20 @@
         pointer-events: none;
     }
 </style>
+
 <div class="col-md-12">
-    <h3>List | Employee</h3>
+    <h3>List | Employee (Client Side Processing) </h3>
     @Html.ActionLink("Create", "Create","Employees", new {@class = "btn btn-default"})
     <hr />
 </div>
 
-<div class="col-md-12">
+<div class="container" style="overflow-x:auto">
     <table id="myTable" class="table table-hover table-striped table-bordered" cellspacing="0">
         <thead>
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -34,6 +34,7 @@
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -44,6 +45,7 @@
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -66,7 +68,19 @@
 
             //Initialize the datatable
 
-           var table = $('#myTable').DataTable({
+            var table = $('#myTable').DataTable({
+
+                //Fixed Column Configuration Start
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: 1,
+                    rightColumns: 1
+                },
+                //Fixed Column Configuration End
+
+                //Setting Page Sizes for Pagination
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+
                 "ajax": {
                     "url": "/ClientSide/LoadData",
                     "type": "GET",
@@ -81,6 +95,7 @@
                         }
                     },
                     { "data": "DepartmentName", "autoWidth": true },
+                    { "data": "Designation", "autoWidth": true },
                     { "data": "Age", "autoWidth": true },
                     { "data": "Gender", "autoWidth": true },
                     {
@@ -133,25 +148,24 @@
                 ]
             });
 
-            //var table = $('#myTable').DataTable({
-            //    orderCellsTop: true
+            // Apply the search(If there is no fixed Column)
+
+            //table.columns().every(function (index) {
+            //    $('#myTable thead tr:eq(0) th:eq(' + index + ') input').on('keyup change', function () {
+            //        table.column($(this).parent().index() + ':visible')
+            //            .search(this.value)
+            //            .draw();
+            //    });
             //});
 
-            // Apply the search
-            table.columns().every(function (index) {
-                $('#myTable thead tr:eq(0) th:eq(' + index + ') input').on('keyup change', function () {
-                    table.column($(this).parent().index() + ':visible')
+            // Individual Column Searching In case of Some Fixed Column
+            $(table.table().container()).on('keyup', 'thead input', function () {
+                table.column($(this).parent().index() + ':visible')
                         .search(this.value)
-                        .draw();
-                });
+                       .draw();
             });
+           
 
         });
     </script>
 }
-
-@*<td>
-        @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId }) |
-        @Html.ActionLink("Details", "Details", new { id=item.EmployeeId }) |
-        @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeId })
-    </td>*@

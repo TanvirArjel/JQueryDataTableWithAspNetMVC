@@ -14,18 +14,19 @@
         pointer-events: none;
     }
 </style>
-<div class="col-md-12">
-    <h3>List | Employee</h3>
+<div class="container">
+    <h3>List | Employee (Server Side Processing)</h3>
     @Html.ActionLink("Create", "Create", "ServerSide", null, new { @class = "btn btn-default" })
     <hr />
 </div>
 
-<div class="col-md-12">
+<div class="container" style="overflow-x:auto">
     <table id="myTable" class="table table-hover table-striped table-bordered" cellspacing="0">
         <thead>
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -34,6 +35,7 @@
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -44,6 +46,7 @@
             <tr>
                 <th>Employee Name</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Age</th>
                 <th>Gender</th>
                 <th>CreatedOn</th>
@@ -67,6 +70,16 @@
             //Initialize the datatable
 
             var table = $('#myTable').DataTable({
+                //Setting Page Sizes for Pagination
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+
+                //Fixed Column Configuration Start
+                "scrollX": true,
+                "fixedColumns": {
+                    leftColumns: 1,
+                    rightColumns: 1
+                },
+                //Fixed Column Configuration End
                 "processing": true,
                 "serverSide": true,
                 //"filter": false,
@@ -86,6 +99,7 @@
                         }
                     },
                     { "data": "Department.DepartmentName", "name": "DepartmentName", "autoWidth": true },
+                    { "data": "Designation", "name": "Designation", "autoWidth": true },
                     { "data": "Age", "name": "Age", "autoWidth": true },
                     { "data": "Gender", "name": "Gender", "autoWidth": true },
                     {
@@ -138,21 +152,24 @@
                 ]
             });
 
+            // Apply the search(If there is no fixed Column)
 
-            table.columns().every(function (index) {
-                $('#myTable thead tr:eq(0) th:eq(' + index + ') input').on('focusout', function () {
-                    table.column($(this).parent().index() + ':visible')
-                        .search(this.value)
-                        .draw();
-                });
+            //table.columns().every(function (index) {
+            //    $('#myTable thead tr:eq(0) th:eq(' + index + ') input').on('focusout', function () {
+            //        table.column($(this).parent().index() + ':visible')
+            //            .search(this.value)
+            //            .draw();
+            //    });
+            //});
+
+            // Individual Column Searching In case of Some Fixed Column
+            $(table.table().container()).on('focusout', 'thead input', function () {
+                table.column($(this).parent().index() + ':visible')
+                       .search(this.value)
+                      .draw();
             });
 
         });
     </script>
 }
 
-@*<td>
-        @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeId }) |
-        @Html.ActionLink("Details", "Details", new { id=item.EmployeeId }) |
-        @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeId })
-    </td>*@

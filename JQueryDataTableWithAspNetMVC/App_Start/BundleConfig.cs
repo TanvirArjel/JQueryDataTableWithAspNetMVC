@@ -16,7 +16,8 @@ namespace JQueryDataTableWithAspNetMVC
 
             bundles.Add(new ScriptBundle("~/JqueryBundle/DataTables").Include(
                 "~/Scripts/DataTables/jquery.dataTables.min.js",
-                "~/Scripts/DataTables/dataTables.bootstrap.min.js"
+                "~/Scripts/DataTables/dataTables.bootstrap.min.js",
+                "~/Scripts/DataTables/dataTables.fixedColumns.min.js"
                 ));
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -30,7 +31,8 @@ namespace JQueryDataTableWithAspNetMVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/dataTables.bootstrap.min.css"));
+                      "~/Content/dataTables.bootstrap.min.css",
+                      "~/Content/fixedColumns.bootstrap.min.css"));
         }
     }
 }

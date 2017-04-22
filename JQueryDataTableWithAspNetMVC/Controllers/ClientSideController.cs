@@ -29,6 +29,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
                 x.EmployeeId,
                 x.EmployeeName,
                 x.Department.DepartmentName,
+                x.Designation,
                 x.Age,
                 x.Gender,
                 x.CreatedOn
@@ -63,7 +64,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Age,Gender,CreatedOn")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Designation,Age,Gender,CreatedOn")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace JQueryDataTableWithAspNetMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Age,Gender,CreatedOn")] Employee employee)
+        public async Task<ActionResult> Edit([Bind(Include = "EmployeeId,EmployeeName,DepartmentId,Designation,Age,Gender,CreatedOn")] Employee employee)
         {
             if (ModelState.IsValid)
             {

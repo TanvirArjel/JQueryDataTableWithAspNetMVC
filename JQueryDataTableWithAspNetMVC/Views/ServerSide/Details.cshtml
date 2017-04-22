@@ -10,13 +10,6 @@
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Department.DepartmentName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Department.DepartmentName)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.EmployeeName)
@@ -24,6 +17,20 @@
 
         <dd>
             @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DepartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DepartmentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Designation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Designation)
         </dd>
 
         <dt>
