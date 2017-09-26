@@ -9,51 +9,55 @@
         display: none;
     }
 
-    .actions input {
-        visibility: hidden;
-        pointer-events: none;
-    }
 </style>
+<br/>
+<a id="myButton" href="@Url.Action("Create")" class="btn btn-success pull-right">Create Employee</a>
 <div class="container">
-    <h3>List | Employee (Server Side Processing)</h3>
-    @Html.ActionLink("Create", "Create", "ServerSide", null, new { @class = "btn btn-default" })
-    <hr />
-</div>
-
-<div class="container" style="overflow-x:auto">
-    <table id="myTable" class="table table-hover table-striped table-bordered" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Employee Name</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>CreatedOn</th>
-                <th class="actions">Actions</th>
-            </tr>
-            <tr>
-                <th>Employee Name</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>CreatedOn</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>Employee Name</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>CreatedOn</th>
-                <th>Actions</th>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span style="font-size: 25px;"><strong>Employee List (Server Side Processing)</strong></span>
+        </div>
+        <div class="panel-body">
+            <table id="myTable" class="table table-hover table-striped table-condensed table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>CreatedOn</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>CreatedOn</th>
+                        <th>
+                            <div class="text-center" style="display: inline-block; width: 170px">
+                                Actions
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>CreatedOn</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    
 </div>
 
 @section Scripts{
@@ -62,7 +66,7 @@
         $(document).ready(function () {
 
             // Setup - add a text input to each header cell
-            $('#myTable thead tr:eq(0) th').each(function () {
+            $('#myTable thead tr:eq(0) th:not(:last)').each(function () {
                 var title = $(this).text();
                 $(this).html('<input type="text" placeholder="Search ' + title + '" />');
             });
@@ -79,6 +83,7 @@
                     leftColumns: 1,
                     rightColumns: 1
                 },
+                //"dom": '<"link">',
                 //Fixed Column Configuration End
                 "processing": true,
                 "serverSide": true,
@@ -144,12 +149,16 @@
                         "bSortable": false,
                         "render": function (data, type, row, meta) {
 
-                            return '<a href="/ServerSide/Details/' + row.EmployeeId + '">Details</a>' + ' | ' +
-                                '<a href="/ServerSide/Edit/' + row.EmployeeId + '">Edit</a>' + ' | ' +
-                                '<a href="/ServerSide/Delete/' + row.EmployeeId + '">Delete</a>';
+                            return '<a class ="btn btn-info btn-xs" href="/ServerSide/Details/' + row.EmployeeId + '">Details</a>' + ' ' +
+                                '<a class ="btn btn-primary btn-xs" href="/ServerSide/Edit/' + row.EmployeeId + '">Edit</a>' + ' ' +
+                                '<a class ="btn btn-danger btn-xs" href="/ServerSide/Delete/' + row.EmployeeId + '">Delete</a>';
                         }
                     }
-                ]
+                ],
+
+                "fnDrawCallback": function(oSettings) {
+                    $('#myButton').prependTo($('#myTable_wrapper'));
+                }
             });
 
             // Apply the search(If there is no fixed Column)
